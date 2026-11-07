@@ -29,3 +29,10 @@ models/*
 
 # Editor settings
 .vscode/
+
+# Jupyter temporary files
+*.ipynb~
+
+# Python coverage
+.coverage
+htmlcov/
