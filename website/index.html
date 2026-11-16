@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An undergraduate machine-learning investigation into text-based classification of computer-generated and original consumer reviews.">
+  <title>Can We Distinguish Computer-Generated Reviews?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="script.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#top" aria-label="Fake Review Detection home">
+    <span class="brand-icon">FR</span><span><b>Review Signals</b><small>ES 335 · Machine Learning Project</small></span>
+  </a>
+  <button class="mobile-menu" id="mobileMenu" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+  <nav id="mainNav" class="nav">
+    <a href="#question">Question</a><a href="#data">Dataset</a><a href="#approach">Approach</a>
+    <a href="#experiments">Experiments</a><a href="#findings">Findings</a><a href="#playground">Try model</a>
+  </nav>
+  <a class="nav-github" href="https://github.com/akshatmathews-idk/fake-review-detector" target="_blank" rel="noopener">Repository ↗</a>
+</header>
+
+<main id="top">
+  <section class="hero shell">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="pulse"></span> A DATASET-SPECIFIC TEXT CLASSIFICATION STUDY</div>
+      <h1>Can review text help distinguish <em>computer-generated</em> from original reviews?</h1>
+      <p class="hero-lead">We compare classical machine-learning models on a labelled consumer-review dataset, examine where they make mistakes, and let you test the selected model.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#findings">Explore the findings <span>↓</span></a>
+        <a class="btn btn-quiet" href="#playground">Try a review <span>↗</span></a>
+      </div>
+      <div class="hero-caveat"><span>!</span> A model prediction is not proof of deception, fraud, or authorship.</div>
+    </div>
+    <div class="hero-art" aria-label="Illustration of a review being converted into text features and a classification score">
+      <div class="art-head"><span>TEXT → FEATURES → DECISION</span><span class="art-live">MODEL PIPELINE</span></div>
+      <div class="art-review"><div class="mini-label">INPUT REVIEW</div><p>“The quality is excellent and it works exactly as expected.”</p><div class="review-foot"><span>Unstructured text</span><span>Text only</span></div></div>
+      <div class="connector">↓</div>
+      <div class="art-features"><div class="mini-label">TF–IDF FEATURES</div><div class="tokens"><span>quality</span><span>works</span><span>exactly as</span><span>as expected</span></div><div class="feature-lines"><i></i><i></i><i></i></div></div>
+      <div class="connector">↓</div>
+      <div class="art-output"><span class="output-symbol">↗</span><div><small>LINEAR SVM</small><b>Decision score</b></div><span class="output-pill">OR / CG</span></div>
+      <div class="art-caption">A linear decision rule over sparse word and phrase features.</div>
+    </div>
+  </section>
+
+  <section class="metrics-ribbon shell" aria-label="Project at a glance">
+    <div><strong data-stat="original_rows">40,432</strong><span>Original records</span></div>
+    <div><strong data-stat="after_duplicate_text_removal">40,410</strong><span>Unique review texts</span></div>
+    <div><strong data-stat="train_rows">32,328</strong><span>Training reviews</span></div>
+    <div><strong data-stat="accuracy">95.00%</strong><span>Held-out test accuracy</span></div>
+  </section>
+
+  <section class="section shell" id="question">
+    <div class="section-head"><div class="section-index">01 / THE QUESTION</div><h2>What exactly are we trying to predict?</h2><p>We frame the task as supervised binary classification: given the review text, predict the dataset label.</p></div>
+    <div class="question-grid">
+      <div class="question-statement">
+        <div class="quote-mark">“</div>
+        <h3>Can the words and short phrases in a review provide useful signals for distinguishing the dataset’s CG and OR labels?</h3>
+        <p>The model receives only the review text. Ratings and product categories are retained for exploratory and error analysis, not used as prediction-time inputs.</p>
+      </div>
+      <div class="definition-card">
+        <div class="def-row"><span>Input</span><b><code>text_</code> · review text</b></div>
+        <div class="def-row"><span>Target</span><b>OR = 0 · CG = 1</b></div>
+        <div class="def-row"><span>Task</span><b>Binary text classification</b></div>
+        <div class="def-row"><span>Features</span><b>TF–IDF unigrams + bigrams</b></div>
+        <div class="def-row"><span>Final classifier</span><b>LinearSVC</b></div>
+      </div>
+    </div>
+    <div class="callout"><b>Interpretation boundary</b><p>“Original” and “computer-generated” refer to the labels supplied by this dataset. The model learns associations with those labels; it does not verify who wrote a review or whether its claims are true.</p></div>
+  </section>
+
+  <section class="section section-soft" id="data">
+    <div class="shell">
+      <div class="section-head"><div class="section-index">02 / DATASET</div><h2>What went into the study?</h2><p>The project uses the <a href="https://www.kaggle.com/datasets/mexwell/fake-reviews-dataset" target="_blank" rel="noopener">Fake Reviews Dataset by mexwell on Kaggle</a>. Each row represents one consumer review.</p></div>
+      <div class="data-layout">
+        <div class="surface data-summary">
+          <div class="surface-label">DATASET PROFILE</div><h3>40,432 review records</h3>
+          <p>Four original columns were available. Only <code>text_</code> was used as the model input.</p>
+          <div class="field-list">
+            <div><code>text_</code><span>Review text</span><b class="tag tag-green">Model input</b></div>
+            <div><code>label</code><span>OR or CG</span><b class="tag tag-blue">Target</b></div>
+            <div><code>rating</code><span>1–5 stars</span><b class="tag">Analysis only</b></div>
+            <div><code>category</code><span>Product category</span><b class="tag">Analysis only</b></div>
+          </div>
+          <div class="dataset-foot"><span>10 product categories</span><span>Ratings 1–5</span><span>Near-balanced labels</span></div>
+        </div>
+        <div class="surface chart-surface">
+          <div class="surface-label">AFTER DUPLICATE-TEXT REMOVAL</div><h3>Class distribution</h3><p class="muted">The cleaned dataset contains 40,410 unique review texts.</p>
+          <div class="chart-box"><canvas id="classChart" aria-label="Class distribution chart"></canvas></div>
+          <div class="legend-row"><span><i class="dot dot-or"></i> Original (OR) <b>20,215</b></span><span><i class="dot dot-cg"></i> Computer-generated (CG) <b>20,195</b></span></div>
+        </div>
+      </div>
+      <div class="insight-grid">
+        <article class="insight"><span class="insight-icon">01</span><b>Balanced labels</b><p>After cleaning, OR accounts for 50.02% and CG for 49.98% of the dataset.</p></article>
+        <article class="insight"><span class="insight-icon">02</span><b>Ratings are skewed high</b><p>Most records have a five-star rating. Rating was not supplied to the classifier.</p></article>
+        <article class="insight"><span class="insight-icon">03</span><b>Length distributions overlap</b><p>Median review length was 42 words for OR and 35 for CG. Length alone is not a sufficient discriminator.</p></article>
+        <article class="insight"><span class="insight-icon">04</span><b>Categories are balanced by label</b><p>Each of the 10 product categories contains an equal proportion of CG and OR labels in the EDA.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section shell" id="preparation">
+    <div class="section-head"><div class="section-index">03 / DATA PREPARATION</div><h2>Clean first. Split second. Learn within folds.</h2><p>Preprocessing was deliberately limited: preserve review wording while preventing repeated texts from leaking across the split.</p></div>
+    <div class="timeline">
+      <article><span>01</span><div><b>Trim whitespace</b><p>Leading and trailing whitespace was stripped from review text.</p></div></article>
+      <article><span>02</span><div><b>Validate records</b><p>Missing text, missing labels, empty reviews and conflicting labels for duplicate normalised texts were checked. No missing or empty review texts and no conflicting duplicate labels were found.</p></div></article>
+      <article><span>03</span><div><b>Remove repeated texts</b><p>22 duplicate text occurrences were removed after whitespace normalisation, retaining the first occurrence of each unique text.</p></div></article>
+      <article><span>04</span><div><b>Encode and split</b><p>OR → 0 and CG → 1. A stratified 80/20 split used <code>random_state=42</code>.</p></div></article>
+    </div>
+    <div class="split-band"><div><span>TRAINING SET</span><b>32,328</b><small>16,172 OR · 16,156 CG</small></div><div class="split-track"><i></i><i></i></div><div><span>HELD-OUT TEST SET</span><b>8,082</b><small>4,043 OR · 4,039 CG</small></div></div>
+    <p class="method-note"><b>Leakage control:</b> TF–IDF was placed inside each scikit-learn pipeline. During cross-validation, vocabulary and IDF weights were fitted only on that fold’s training portion. Duplicate review texts were removed before splitting, and no train–test text overlap remained.</p>
+  </section>
+
+  <section class="section section-dark" id="approach">
+    <div class="shell">
+      <div class="section-head section-head-light"><div class="section-index">04 / MODELLING</div><h2>From words to a separating boundary.</h2><p>We compared a non-learning baseline with Logistic Regression and a linear Support Vector Machine, using sparse TF–IDF representations.</p></div>
+      <div class="pipeline-row">
+        <div><small>01</small><b>Review text</b><span>Raw words</span></div><i>→</i><div><small>02</small><b>TF–IDF</b><span>Word + phrase weights</span></div><i>→</i><div><small>03</small><b>Classifier</b><span>Learned boundary</span></div><i>→</i><div><small>04</small><b>OR / CG</b><span>Predicted dataset label</span></div>
+      </div>
+      <div class="model-cards">
+        <article><span class="model-letter">A</span><h3>DummyClassifier</h3><p>Uses the most-frequent strategy and ignores review text. It establishes a baseline near 50% accuracy.</p><small>Baseline · no text learning</small></article>
+        <article><span class="model-letter">B</span><h3>Logistic Regression</h3><p>Learns weights for TF–IDF features. We compared individual words with words plus adjacent two-word phrases.</p><small>Linear probabilistic classifier</small></article>
+        <article class="model-featured"><span class="model-letter">C</span><h3>LinearSVC</h3><p>Learns a linear decision boundary by maximising the margin between classes. It is effective with high-dimensional sparse text features.</p><small>Selected model family</small></article>
+      </div>
+      <div class="tfidf-card"><div><div class="surface-label">FEATURE REPRESENTATION</div><h3>Why TF–IDF?</h3><p>TF–IDF gives weight to terms based on their frequency in a review and how common they are across the document collection. Unigrams represent one word; bigrams represent consecutive two-word phrases.</p></div><div class="parameter-grid"><div><b>1–2 grams</b><span>Words + adjacent pairs</span></div><div><b><code>min_df=2</code></b><span>Discard terms in fewer than 2 documents</span></div><div><b><code>max_df=0.95</code></b><span>Ignore terms in over 95% of documents</span></div><div><b><code>sublinear_tf=True</code></b><span>Use 1 + log(term frequency)</span></div></div></div>
+    </div>
+  </section>
+
+  <section class="section shell" id="experiments">
+    <div class="section-head"><div class="section-index">05 / EXPERIMENTS</div><h2>Model choice was empirical, not assumed.</h2><p>We used stratified five-fold cross-validation on the training set. Each fold acted once as validation data while the other four folds were used for fitting.</p></div>
+    <div class="experiment-layout">
+      <div class="surface chart-surface"><div class="surface-label">MODEL COMPARISON · MEAN CV SCORE</div><div class="chart-title-row"><h3>Compare candidate models</h3><label class="select-wrap">Metric <select id="metricSelect"><option value="accuracy">Accuracy</option><option value="macro_f1">Macro F1</option><option value="balanced_accuracy">Balanced accuracy</option><option value="roc_auc">ROC-AUC</option></select></label></div><div class="chart-box chart-large"><canvas id="modelChart" aria-label="Model comparison chart"></canvas></div><p class="chart-foot" id="metricCaption">Mean score across five stratified folds. Higher is better.</p></div>
+      <div class="experiment-aside"><div class="aside-kicker">WHAT CHANGED?</div><div class="delta"><b>+2.62 pp</b><span>Accuracy improvement when adding bigrams to Logistic Regression.</span></div><div class="delta"><b>+1.84 pp</b><span>Further accuracy improvement when replacing Logistic Regression with LinearSVC using the same uni + bi representation.</span></div><p class="muted">These are observed differences in mean cross-validation scores, not tests of statistical significance.</p></div>
+    </div>
+    <div class="surface feature-experiment">
+      <div><div class="surface-label">FEATURE EXPERIMENTS</div><h3>Sublinear term frequency gave the strongest result.</h3><p>We varied one TF–IDF setting at a time while keeping the LinearSVC classifier and five-fold procedure fixed.</p></div>
+      <div class="feature-chart"><canvas id="featureChart" aria-label="Feature experiment accuracy chart"></canvas></div>
+    </div>
+    <div class="selected-config"><div><span class="selection-check">✓</span><div><b>Selected configuration</b><small>LinearSVC · TF–IDF · unigrams + bigrams · min_df=2 · max_df=0.95 · sublinear_tf=True</small></div></div><strong>94.61%<small>Mean CV accuracy</small></strong></div>
+  </section>
+
+  <section class="section section-soft" id="findings">
+    <div class="shell">
+      <div class="section-head"><div class="section-index">06 / FINAL EVALUATION</div><h2>How did the selected model perform?</h2><p>The selected configuration was fitted on the full training set and evaluated on the 8,082-review held-out test set.</p></div>
+      <div class="score-grid">
+        <div class="score-card score-primary"><span>TEST ACCURACY</span><b>95.00%</b><small>7,678 correct out of 8,082</small></div>
+        <div class="score-card"><span>ROC–AUC</span><b>0.9889</b><small>Ranking separation across thresholds</small></div>
+        <div class="score-card"><span>MACRO F1</span><b>0.9500</b><small>Equal weight to both classes</small></div>
+        <div class="score-card"><span>CG RECALL</span><b>94.06%</b><small>3,799 of 4,039 CG reviews</small></div>
+      </div>
+      <div class="test-layout">
+        <div class="surface">
+          <div class="surface-label">HELD-OUT TEST CONFUSION MATRIX</div><h3>Actual label vs predicted label</h3>
+          <div class="matrix-wrap"><div class="matrix-y">ACTUAL</div><div class="matrix"><div class="matrix-corner"></div><div class="matrix-axis">Predicted OR</div><div class="matrix-axis">Predicted CG</div><div class="matrix-axis row">Actual OR</div><div class="matrix-cell good"><b>3,879</b><small>Correct OR</small></div><div class="matrix-cell miss"><b>164</b><small>OR → CG</small></div><div class="matrix-axis row">Actual CG</div><div class="matrix-cell miss"><b>240</b><small>CG → OR</small></div><div class="matrix-cell good"><b>3,799</b><small>Correct CG</small></div></div></div>
+          <p class="chart-foot">Rows show actual labels; columns show predictions. A false negative here is a CG-labelled review predicted as OR.</p>
+        </div>
+        <div class="surface class-report"><div class="surface-label">CLASS-WISE TEST METRICS</div><h3>Performance by label</h3><div class="report-row"><b>OR</b><span>Precision 94.17%</span><span>Recall 95.94%</span><span>F1 95.05%</span></div><div class="report-row"><b>CG</b><span>Precision 95.86%</span><span>Recall 94.06%</span><span>F1 94.95%</span></div><div class="report-note">Precision asks how many predictions of a class were correct. Recall asks how many actual examples of that class were found.</div></div>
+      </div>
+      <div class="transparency-note"><b>Evaluation transparency</b><p>The held-out test set was inspected once during development before the feature experiments were completed. We therefore do not describe it as a completely untouched test set. Cross-validation on the training set was used for model and feature comparisons; the test results are reported with this caveat.</p></div>
+    </div>
+  </section>
+
+  <section class="section shell" id="error-analysis">
+    <div class="section-head"><div class="section-index">07 / ERROR ANALYSIS</div><h2>Where does the model struggle?</h2><p>We generated out-of-fold (OOF) predictions on the training set. Each review was predicted by a model that had not been fitted on that review.</p></div>
+    <div class="oof-strip"><div><b>32,328</b><span>OOF predictions</span></div><div><b>1,742</b><span>Incorrect predictions</span></div><div><b>94.61%</b><span>OOF accuracy</span></div><div><b>5.39%</b><span>OOF error rate</span></div></div>
+    <div class="error-grid">
+      <div class="surface"><div class="surface-label">OOF CONFUSION MATRIX</div><h3>More CG → OR errors</h3><div class="mini-matrix"><div><b>15,435</b><small>OR → OR</small></div><div class="bad"><b>737</b><small>OR → CG</small></div><div class="bad"><b>1,005</b><small>CG → OR</small></div><div><b>15,151</b><small>CG → CG</small></div></div><p class="chart-foot">The model missed 1,005 CG-labelled reviews, compared with 737 OR-labelled reviews incorrectly marked CG.</p></div>
+      <div class="surface"><div class="surface-label">ERROR RATE BY RATING</div><h3>Higher ratings had higher observed error rates</h3><div class="chart-box"><canvas id="ratingChart" aria-label="OOF error rate by rating chart"></canvas></div><p class="chart-foot">The five-star group also contains the largest number of records, so its count is not directly comparable with smaller rating groups.</p></div>
+    </div>
+    <div class="surface category-surface"><div><div class="surface-label">ERROR RATE BY PRODUCT CATEGORY</div><h3>Performance varied across categories</h3><p>Movies & TV and Books had the highest observed error rates; Electronics had the lowest in this OOF analysis.</p></div><div class="chart-box"><canvas id="categoryChart" aria-label="OOF error rate by category chart"></canvas></div></div>
+    <div class="interpretation"><b>What these patterns do — and do not — tell us</b><p>The OOF results show where mistakes were more frequent within this dataset. They do not establish why those reviews were difficult, and the category/rating associations should not be interpreted as causal explanations.</p></div>
+  </section>
+
+  <section class="section section-dark" id="playground">
+    <div class="shell playground-shell">
+      <div class="section-head section-head-light"><div class="section-index">08 / INTERACTIVE DEMO</div><h2>Try the trained classifier.</h2><p>Enter a review and run it through the exported TF–IDF + LinearSVC model. Inference happens in your browser; no review is sent to a Python backend.</p></div>
+      <div class="playground-layout">
+        <div class="demo-input">
+          <label for="reviewInput">REVIEW TEXT</label>
+          <textarea id="reviewInput" rows="7" placeholder="Paste a consumer review here..."></textarea>
+          <div class="example-picker">
+            <div class="example-picker-head"><b>TRY A DATASET EXAMPLE</b><span>Click an example to run it</span></div>
+            <div id="exampleButtons" class="example-buttons">
+              <p class="demo-status">Loading labelled examples…</p>
+            </div>
+          </div>
+          <div class="demo-actions"><button id="analyseButton" class="btn btn-primary" type="button">Analyse review <span>→</span></button><button id="clearButton" class="btn btn-outline" type="button">Clear</button></div>
+          <p id="modelStatus" class="demo-status" aria-live="polite">The model loads when you first analyse a review.</p>
+        </div>
+        <div class="demo-result" id="predictionResult" aria-live="polite">
+          <div class="result-placeholder"><span>✳</span><b>Your prediction will appear here</b><p>Enter review text to see the predicted dataset label, decision score and strongest feature contributions.</p></div>
+        </div>
+      </div>
+      <div class="demo-disclaimer"><b>Read this carefully</b><p>The decision score is not a probability. Feature contributions indicate how individual TF–IDF features move the linear score; they are not causal explanations. A prediction is not proof of authorship or deception.</p></div>
+    </div>
+  </section>
+
+  <section class="section shell" id="limitations">
+    <div class="section-head"><div class="section-index">09 / LIMITATIONS</div><h2>What should we not claim?</h2><p>Strong results on one labelled dataset do not automatically transfer to other review sources or real-world settings.</p></div>
+    <div class="limits-grid">
+      <article><span>01</span><b>Dataset dependence</b><p>The model learns patterns in this particular dataset. Performance may change across platforms, product types or time periods.</p></article>
+      <article><span>02</span><b>Label validity</b><p>The dataset’s CG/OR labels may not perfectly represent the real-world distinction between generated and original writing.</p></article>
+      <article><span>03</span><b>Limited representation</b><p>TF–IDF captures word and short-phrase statistics, not deep context, intent, sarcasm or factual accuracy.</p></article>
+      <article><span>04</span><b>Evaluation caveat</b><p>The held-out test set was inspected during development before feature experiments were complete.</p></article>
+      <article><span>05</span><b>Not a fraud detector</b><p>The classifier cannot establish deception, fraud, authenticity or the identity of an author.</p></article>
+      <article><span>06</span><b>No significance test</b><p>Observed CV improvements were not tested for statistical significance.</p></article>
+    </div>
+    <div class="conclusion"><div class="surface-label">TAKEAWAY</div><h3>Text patterns provide useful signals for reproducing the labels in this dataset.</h3><p>LinearSVC with TF–IDF unigrams and bigrams, min_df=2, max_df=0.95 and sublinear term frequency performed best among the configurations tested. The result is promising within the study’s scope, but it is not evidence of a universal AI-review detector.</p></div>
+  </section>
+
+  <section class="section section-soft" id="reproducibility">
+    <div class="shell">
+      <div class="section-head"><div class="section-index">10 / REPRODUCIBILITY</div><h2>Explore the work behind the result.</h2><p>The website is a concise project overview. The repository contains the notebooks, experiment outputs and implementation used in the study.</p></div>
+      <div class="resource-grid">
+        <a href="https://github.com/akshatmathews-idk/fake-review-detector" target="_blank" rel="noopener"><span>01</span><div><b>Project repository</b><small>Notebooks, code, results and setup instructions</small></div><strong>↗</strong></a>
+        <a href="https://www.kaggle.com/datasets/mexwell/fake-reviews-dataset" target="_blank" rel="noopener"><span>02</span><div><b>Dataset source</b><small>Fake Reviews Dataset · Kaggle</small></div><strong>↗</strong></a>
+        <a href="https://scikit-learn.org/stable/" target="_blank" rel="noopener"><span>03</span><div><b>Scikit-learn</b><small>TF–IDF, pipelines and classifiers</small></div><strong>↗</strong></a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="footer"><div class="shell footer-main"><div class="brand brand-footer"><span class="brand-icon">FR</span><span><b>Review Signals</b><small>ES 335 · Undergraduate ML Project</small></span></div><a href="#top">Back to top ↑</a></div><div class="shell footer-bottom">Built with HTML, CSS and JavaScript. Results and claims are limited to the dataset and experiments described on this page.</div></footer>
+</body>
+</html>
