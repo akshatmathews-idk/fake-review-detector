@@ -1,4 +1,4 @@
-# Review Signals — Computer-Generated vs Original Consumer Review Classification
+# Fake Review Detector — Computer-Generated vs Original Consumer Review Classification
 
 An ES335 machine-learning project investigating whether review text contains useful signals for distinguishing the `CG` (computer-generated) and `OR` (original) labels in a public consumer-review dataset.
 
@@ -215,3 +215,34 @@ The demo runs entirely in the browser. It downloads the Logistic Regression JSON
 - Logistic Regression probabilities are not guaranteed to be calibrated.
 - Browser JSON size is not the same as total page size or guaranteed transfer size; actual loading depends on compression, network, caching and parsing.
 - Website inference should be checked against Python predictions after any model re-training/export.
+
+## AI use disclosure
+
+Generative AI assistance was used during development for explanations, code drafting/debugging and documentation support. The team reviewed and ran the project code and is responsible for the submitted work and interpretation of results.
+
+The deployed prediction system does **not** call a generative AI service. It uses a locally exported TF–IDF + Logistic Regression model running in the browser.
+
+*If the course requires naming specific AI tools, dates or the extent of assistance, update this disclosure to match the course's requirements.*
+
+## Team contributions
+
+### Akshat Mathews
+Made the website, file structure and decided on the workflow. Helped in making the required notebooks and `src` files. Decided the main models to keep and gave feature engineering ideas.
+
+### Daksh Rathi
+Made the required notebooks and `src` files. Implemented the ideas discussed. Helped in making the website, specifically the interactive part, as per requirements.
+
+## References and software acknowledgements
+
+1. **Dataset.** mexwell. *Fake Reviews Dataset.* Kaggle. [Dataset page](https://www.kaggle.com/datasets/mexwell/fake-reviews-dataset). Cite the dataset page and observe its stated licence/terms when redistributing data.
+2. **scikit-learn.** Pedregosa, F. et al. (2011). Scikit-learn: Machine Learning in Python. *Journal of Machine Learning Research, 12*, 2825–2830. [Paper](https://jmlr.org/papers/v12/pedregosa11a.html) · [Documentation](https://scikit-learn.org/stable/).
+3. **NumPy.** Harris, C. R. et al. (2020). Array programming with NumPy. *Nature, 585*, 357–362. [DOI](https://doi.org/10.1038/s41586-020-2649-2) · [Documentation](https://numpy.org/doc/).
+4. **pandas.** The pandas development team. *pandas: Python data analysis library.* [Project and documentation](https://pandas.pydata.org/).
+5. **SciPy.** Virtanen, P. et al. (2020). SciPy 1.0: Fundamental algorithms for scientific computing in Python. *Nature Methods, 17*, 261–272. [DOI](https://doi.org/10.1038/s41592-019-0686-2) · [Documentation](https://docs.scipy.org/doc/scipy/).
+6. **Matplotlib.** Hunter, J. D. (2007). Matplotlib: A 2D graphics environment. *Computing in Science & Engineering, 9*(3), 90–95. [DOI](https://doi.org/10.1109/MCSE.2007.55) · [Documentation](https://matplotlib.org/stable/).
+7. **Seaborn.** Waskom, M. L. (2021). Seaborn: statistical data visualization. *Journal of Open Source Software, 6*(60), 3021. [DOI](https://doi.org/10.21105/joss.03021) · [Documentation](https://seaborn.pydata.org/).
+8. **XGBoost.** Chen, T. & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. In *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*, 785–794. [DOI](https://doi.org/10.1145/2939672.2939785) · [Documentation](https://xgboost.readthedocs.io/).
+9. **Joblib.** Joblib developers. *Joblib documentation.* [Documentation](https://joblib.readthedocs.io/).
+10. **Jupyter.** Project Jupyter. *Jupyter documentation.* [Documentation](https://docs.jupyter.org/).
+
+The website interface is implemented with HTML, CSS and JavaScript. Its charts are rendered with native SVG; no charting library is loaded by the website. Keep this list aligned with the libraries actually used in the final submitted code and notebooks.
