@@ -35,6 +35,89 @@ The stratified split contains 32,328 training examples and 8,082 test examples (
 
 The raw CSV is included in the supplied project bundle for convenience. It is ignored by Git because it is source data from Kaggle; when cloning the repository, download the dataset separately and place `fake reviews dataset.csv` inside `data/raw/`.
 
+
+## Why we made these choices
+
+This section records the reasoning behind the main methodological and engineering decisions. The explanations describe the choices made in this project; they should not be read as universal rules.
+
+### 1. Dataset and prediction input
+
+**We used the mexwell Fake Reviews Dataset on Kaggle** because it provides labelled consumer-review text with two classes (`OR` and `CG`), making it suitable for a supervised binary-classification experiment.
+
+**We used review text as the only model input.** The dataset also contains product category and star rating, but these fields were reserved for exploratory analysis and error analysis. This keeps the prediction task focused on linguistic patterns and avoids letting metadata such as rating dominate the classifier. It also means the deployed demo needs only a review's text.
+
+**We removed repeated review texts before splitting.** There were 22 duplicate text occurrences. Removing duplicates reduces the risk that identical reviews appear in both training and test partitions and inflate evaluation scores. Text was normalised for surrounding whitespace before duplicate removal.
+
+**We used a stratified 80/20 train/test split with `random_state=42`.** Stratification preserves the near-equal OR/CG class proportions in both partitions. Fixing the random seed makes the split reproducible. This produced 32,328 training rows and 8,082 test rows.
+
+### 2. Text representation: TF–IDF with unigrams and bigrams
+
+**We chose TF–IDF rather than raw word counts.** TF–IDF scales a term according to its frequency in a review and how common it is across the corpus. This reduces the influence of terms that appear in nearly every review and gives more weight to terms that are relatively distinctive.
+
+**We included unigrams and bigrams (`ngram_range=(1, 2)`).** Unigrams capture individual words; bigrams capture short phrases and local word combinations. This allows the classifier to use signals such as a phrase rather than relying only on isolated words. We retained the default token pattern for words of at least two characters.
+
+**We did not remove English stop words in the final configuration.** The experiments without stop-word removal performed better than the earlier English-stop-word configuration. Common words and short function-word patterns can still carry stylistic information in this task, so removing them was not justified by our validation results.
+
+**We used `min_df=10`.** Terms appearing in fewer than ten training documents were excluded. This reduces very rare features that may be noise or one-off spelling/product references, while retaining recurring vocabulary.
+
+**We used sublinear term frequency scaling.** `sublinear_tf=True` replaces raw term frequency with a logarithmically scaled value. This limits the influence of a word merely being repeated many times in one review.
+
+**We kept TF–IDF inside the scikit-learn pipeline during cross-validation.** This is important: the vocabulary and IDF weights are learned separately within each fold's training portion, rather than being calculated once using all data before cross-validation. This reduces information leakage.
+
+### 3. Evaluation metric and validation strategy
+
+**We used Macro F1 as the primary model-selection metric.** The two classes are close to balanced, but Macro F1 still makes the evaluation explicit: it calculates F1 for each class and gives both classes equal weight. Accuracy alone can hide uneven performance between classes.
+
+**We used stratified five-fold cross-validation on the training split.** Each fold maintains approximately the same class proportions. Five folds provide multiple validation estimates while keeping the computational cost manageable for the set of models and parameter combinations explored.
+
+**We reported the train–validation gap as a diagnostic, not as proof of overfitting.** The gap is the mean training-fold Macro F1 minus mean validation-fold Macro F1. A large gap can indicate that a model fits its training folds more strongly than it generalises, but the gap must be interpreted alongside validation performance and variability.
+
+**We retained a DummyClassifier baseline.** A baseline gives a minimum reference point. A more complex classifier is useful only if it improves substantially over a simple strategy.
+
+### 4. Why compare linear and tree-based models?
+
+**We compared Logistic Regression and LinearSVC** because linear classifiers are strong, efficient baselines for high-dimensional sparse text features. They can work well with TF–IDF without requiring dense feature matrices.
+
+**We also evaluated Random Forest and XGBoost**, including experiments with additional handcrafted style features. This tested whether non-linear tree ensembles and simple review-style statistics could add useful information. In our experiments, these approaches did not outperform the strongest linear TF–IDF models. The combined text-plus-style features helped the tree models relative to their text-only versions, but did not change the final model choice.
+
+### 5. Why Logistic Regression is the deployed model
+
+The tuned LinearSVC candidate achieved approximately **94.38% cross-validation Macro F1**, compared with **93.98%** for Logistic Regression. LinearSVC therefore had the slightly higher CV score.
+
+We nevertheless selected **Logistic Regression with L2 regularisation** for deployment for two practical reasons:
+
+1. Its observed train–validation gap was smaller: approximately **3.96 percentage points**, compared with approximately **5.27 percentage points** for the best tuned LinearSVC candidate.
+2. Logistic Regression naturally provides class-probability outputs, which are convenient for the website's result display. LinearSVC produces decision margins rather than probabilities; probability estimates would require an additional calibration step.
+
+The choice is a trade-off, not a claim that Logistic Regression is universally better. The CV score difference is small, and LinearSVC remains a strong benchmark.
+
+The selected Logistic Regression configuration uses TF–IDF unigrams and bigrams, no stop-word removal, `min_df=10`, sublinear term frequency, up to 100,000 features, and L2-regularised Logistic Regression with `C=3` and the `liblinear` solver.
+
+### 6. Why we tested LinearSVC vocabulary sizes
+
+We separately tested LinearSVC with feature limits of 5,000, 10,000, 25,000 and 50,000 to understand the trade-off between predictive performance and browser payload size.
+
+The 10,000-feature version produced a much smaller JSON payload (about 0.513 MB) while remaining close to the best LinearSVC CV score. Increasing the feature limit from 25,000 to 50,000 did not improve the measured CV Macro F1, and the 50,000 limit did not produce 50,000 actual vocabulary terms.
+
+This experiment was useful for deployment planning, but it did not replace Logistic Regression as the selected website model.
+
+### 7. Why browser-based inference?
+
+**We deployed a static HTML/CSS/JavaScript website using an exported JSON representation of the trained Logistic Regression model.** GitHub Pages hosts static files and does not run the project's Python training or prediction scripts as a backend. Exporting the vocabulary, IDF values, coefficients and intercept allows the browser to reproduce the TF–IDF transformation and Logistic Regression score locally.
+
+This keeps hosting simple and avoids requiring a separate server. It also means that after retraining, the browser model and displayed result files must be exported again and committed to the website.
+
+**The displayed probabilities are model outputs, not proof of authorship.** Logistic Regression probabilities are not guaranteed to be calibrated, and the classifier has only been evaluated on this dataset's label scheme.
+
+### 8. Limitations that affect how we interpret the choices
+
+- The test split was inspected during development, including later model comparisons. Its results should therefore be described as the project's existing held-out split evaluation, not a completely untouched final validation.
+- The dataset's OR/CG labels may not perfectly represent real-world authorship.
+- Performance on other platforms, product categories, languages or time periods is unknown without external evaluation.
+- TF–IDF captures word and phrase patterns, not full meaning, intent, sarcasm or factual correctness.
+- The model is a dataset-specific text classifier, not a universal AI-writing or fraud detector.
+
+
 ## Repository structure
 
 ```text

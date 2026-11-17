@@ -17,6 +17,4 @@ __pycache__/
 /models/**/*.joblib
 /models/**/*.pkl
 
-# Generated prediction dumps can be large; retain the placeholders
-/results/**/predictions/*
-!/results/**/predictions/.gitkeep
+
