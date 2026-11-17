@@ -20,3 +20,6 @@ __pycache__/
 /data/
 /models/final/
 /models/final_model_comparison/
+
+/models/
+/results/predictions/

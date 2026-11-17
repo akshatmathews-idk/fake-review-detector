@@ -127,14 +127,19 @@ This keeps hosting simple and avoids requiring a separate server. It also means 
 ## Repository structure
 
 ```text
-fake_review_detector_project/
-├── .github/workflows/deploy-pages.yml
-├── data/
-│   ├── raw/                     # Kaggle source CSV (local; Git-ignored)
-│   └── processed/               # train.csv, test.csv, metadata (regenerated)
-├── models/                      # fitted joblib models (generated; Git-ignored)
-├── notebooks/                   # numbered analysis and experiment notebooks
-├── results/                     # CV, tuning, evaluation and comparison outputs
+fake-review-detector/
+├── .github/
+│   └── workflows/
+│       └── deploy-pages.yml
+├── notebooks/                       # numbered analysis and experiment notebooks
+├── results/
+│   ├── figures/
+│   ├── final_logistic_regression/
+│   ├── final_model_comparison/
+│   ├── improvement/
+│   ├── improvement_no_stopwords/
+│   └── linearsvc_vocab_experiment/
+│   └── metrics/
 ├── src/
 │   ├── prepare_data.py
 │   ├── preprocessing.py
@@ -144,11 +149,20 @@ fake_review_detector_project/
 │   ├── export_browser_model.py
 │   ├── generate_browser_test_cases.py
 │   └── export_website.py
-├── website/                     # static website + browser model JSON
+├── website/
+│   ├── assets/
+│   ├── data/
+│   ├── index.html
+│   ├── inference.js
+│   ├── README.md
+│   ├── script.js
+│   └── style.css
+├── .gitignore
 ├── requirements.txt
 └── README.md
 ```
 
+The `data/`, `models/`, and `results/predictions/` directories are kept locally and are not part of the GitHub repository. The `website/data/` directory is different: it contains the exported browser model and website data required by the deployed static website, so it remains in the repository.
 ## Setup (Fedora / Linux)
 
 Python 3.12 is recommended. From the project root:
