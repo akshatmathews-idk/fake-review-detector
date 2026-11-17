@@ -225,10 +225,10 @@ The deployed prediction system does **not** call a generative AI service. It use
 ## Team contributions
 
 ### Akshat Mathews
-Made the website, file structure and decided on the workflow. Helped in making the required notebooks and `src` files. Decided the main models to keep and gave feature engineering ideas.
+I made the initial file structure and basic outline of the notebooks and python files required for the project. I made the initial notebooks which had basic Linear regression and Linear SVC models to check their performance. The website was made with suggestions from Daksh. AI was used to convert the ideas for the website like the interactive element of being able to input your own reviews and testing them on our model as well as putting the example reviews. We were unable to do any testing related to LLMs because we were short on time.
 
 ### Daksh Rathi
-Made the required notebooks and `src` files. Implemented the ideas discussed. Helped in making the website, specifically the interactive part, as per requirements.
+I was mainly responsible for analyzing the code and pointing out main flaws which could result in lower accuracies and overfitting. For example, initially I thought that the model should not learn and classify based on words like "and", "or", etc., so we made the model remove words like these. But later we found out that they were critical for learning, so we accordingly tuned the parameters so that the model does not solely depend on generic words. Identifying overfitting was not very hard, but removing it took a lot of effort as we had to change many parameters like the regularization penalty, TF-IDF parameters like min_df, max_df, max_features, etc. Our model has been trained on data that is relatively old, so it might result in very poor accuracies on modern LLM reviews. We could have made it better by adding modern LLM reviews to the training and testing sets to make a better model. Another flaw is that we used only the review texts for classification without considering ratings and categories, which could make our model biased toward certain aspects of reviews
 
 ## References and software acknowledgements
 
