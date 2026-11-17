@@ -222,8 +222,6 @@ Generative AI assistance was used during development for explanations, code draf
 
 The deployed prediction system does **not** call a generative AI service. It uses a locally exported TF–IDF + Logistic Regression model running in the browser.
 
-*If the course requires naming specific AI tools, dates or the extent of assistance, update this disclosure to match the course's requirements.*
-
 ## Team contributions
 
 ### Akshat Mathews
