@@ -124,15 +124,6 @@ Open `http://localhost:8000`. Use a local HTTP server; opening `index.html` dire
 
 The demo runs entirely in the browser. It downloads the Logistic Regression JSON model, tokenises review text, constructs TF-IDF features and applies the sigmoid to the model's log-odds score. The displayed probabilities are model outputs for the dataset classes, not calibrated proof of authorship.
 
-## Deploy to GitHub Pages
-
-1. Push the project to GitHub.
-2. In repository **Settings → Pages**, select **GitHub Actions** as the build/deployment source.
-3. Push a change to `website/` on `main` or `website-development`, or manually run the `Deploy static website to GitHub Pages` workflow.
-4. The workflow publishes the contents of `website/`.
-
-Update the repository links in `website/index.html` if you use a different GitHub repository.
-
 ## Key methodological notes
 
 - TF-IDF is inside each scikit-learn pipeline, so vocabulary and IDF are learned independently in each CV training fold.
