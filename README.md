@@ -109,7 +109,13 @@ This keeps hosting simple and avoids requiring a separate server. It also means 
 
 **The displayed probabilities are model outputs, not proof of authorship.** Logistic Regression probabilities are not guaranteed to be calibrated, and the classifier has only been evaluated on this dataset's label scheme.
 
-### 8. Limitations that affect how we interpret the choices
+### 8. Project Evolution & Iterative Engineering Decisions
+
+* **Scaling from 2 to 5 Models:** We initially started with a focused baseline (Dummy Classifier, Logistic Regression, and LinearSVC). As we dug deeper, we consciously expanded our scope to a full 5-model comparative sweep—incorporating non-linear ensembles (**Random Forest** and **XGBoost**) alongside handcrafted style features—to rigorously test whether complex tree dynamics could outperform sparse linear representations.
+* **The Overfitting & Regularization Odyssey:** While identifying the generalization gap via out-of-fold cross-validation was straightforward, mitigating it took extensive, tedious iteration. We systematically tweaked regularization penalties ($L1$, $L2$, $C$), frequency caps (`min_df`, `max_df`), and feature bounds (`max_features`) to prevent shortcut learning without stripping away critical syntactic signals.
+* **The Modern LLM Scope Trade-off:** We recognized that our dataset is trained on older synthetic generation artifacts, meaning the model will face covariate shift when evaluated on modern, fluent LLM outputs. While we actively discussed augmenting our training and test sets with modern LLM reviews to future-proof the detector, we deliberately deferred this addition to keep the pipeline simple and reproducible within our course timeline.
+
+### 9. Limitations that affect how we interpret the choices
 
 - The test split was inspected during development, including later model comparisons. Its results should therefore be described as the project's existing held-out split evaluation, not a completely untouched final validation.
 - The dataset's OR/CG labels may not perfectly represent real-world authorship.
