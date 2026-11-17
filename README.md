@@ -242,5 +242,3 @@ I was mainly responsible for analyzing the code and pointing out main flaws whic
 8. **XGBoost.** Chen, T. & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. In *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*, 785–794. [DOI](https://doi.org/10.1145/2939672.2939785) · [Documentation](https://xgboost.readthedocs.io/).
 9. **Joblib.** Joblib developers. *Joblib documentation.* [Documentation](https://joblib.readthedocs.io/).
 10. **Jupyter.** Project Jupyter. *Jupyter documentation.* [Documentation](https://docs.jupyter.org/).
-
-The website interface is implemented with HTML, CSS and JavaScript. Its charts are rendered with native SVG; no charting library is loaded by the website. Keep this list aligned with the libraries actually used in the final submitted code and notebooks.
