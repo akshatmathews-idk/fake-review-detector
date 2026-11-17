@@ -18,3 +18,5 @@ __pycache__/
 /models/**/*.pkl
 
 /data/
+/models/final/
+/models/final_model_comparison/
