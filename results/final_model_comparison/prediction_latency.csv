@@ -1,0 +1,3 @@
+,Reviews Tested,Total Prediction Time (seconds),Average Time per Review (ms),Reviews per Second
+Logistic Regression (100k),1000.0,0.04805248500633752,0.04805248500633752,20810.578263915228
+LinearSVC (10k),1000.0,0.04430876800324768,0.04430876800324768,22568.89652013578

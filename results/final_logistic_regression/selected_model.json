@@ -1,0 +1,30 @@
+{
+  "selected_model": "Logistic Regression (L2 / Ridge)",
+  "model_type": "tfidf_logistic_regression",
+  "training_rows": 32328,
+  "training_macro_f1": 0.9801096155946578,
+  "cross_validation_macro_f1": 0.9397691912,
+  "cross_validation_training_macro_f1": 0.9794058675,
+  "generalization_gap": 0.03963667630000001,
+  "target_mapping": {
+    "OR": 0,
+    "CG": 1
+  },
+  "best_parameters": {
+    "tfidf__stop_words": null,
+    "tfidf__ngram_range": [
+      1,
+      2
+    ],
+    "tfidf__min_df": 10,
+    "tfidf__max_df": 1.0,
+    "tfidf__max_features": 100000,
+    "tfidf__sublinear_tf": true,
+    "classifier__penalty": "l2",
+    "classifier__C": 3.0,
+    "classifier__solver": "liblinear",
+    "classifier__class_weight": null
+  },
+  "pipeline_path": "models/final/final_logistic_regression_pipeline.joblib",
+  "selection_note": "Logistic Regression was retained for deployment. The tuned LinearSVC candidate had a slightly higher CV Macro F1 (about 94.38% versus 93.98%), but Logistic Regression had a smaller train-validation gap (about 3.96 versus 5.27 percentage points) and native probability output."
+}

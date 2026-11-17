@@ -1,38 +1,22 @@
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-
-# Virtual environments
+# Python environments and caches
 .venv/
 venv/
-env/
-
-# Jupyter
+__pycache__/
+*.py[cod]
 .ipynb_checkpoints/
-
-# Dataset files
-data/raw/*
-!data/raw/.gitkeep
-
-data/processed/*
-!data/processed/.gitkeep
-
-# Trained models
-models/*
-!models/.gitkeep
-
-# Temporary files
-*.log
 .DS_Store
-.env
 
-# Editor settings
-.vscode/
+# Local source data and derived splits (download/regenerate locally)
+/data/raw/*
+!/data/raw/.gitkeep
+/data/processed/*.csv
+/data/processed/dataset_metadata.json
+!/data/processed/.gitkeep
 
-# Jupyter temporary files
-*.ipynb~
+# Fitted Python models are generated locally
+/models/**/*.joblib
+/models/**/*.pkl
 
-# Python coverage
-.coverage
-htmlcov/
+# Generated prediction dumps can be large; retain the placeholders
+/results/**/predictions/*
+!/results/**/predictions/.gitkeep

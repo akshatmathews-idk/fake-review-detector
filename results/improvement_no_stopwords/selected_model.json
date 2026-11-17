@@ -1,0 +1,20 @@
+{
+  "selected_model": "LinearSVC",
+  "best_cv_macro_f1": 0.9437933830063227,
+  "training_macro_f1": 0.9965200434012376,
+  "generalization_gap": 0.052726660394914915,
+  "best_parameters": {
+    "tfidf__sublinear_tf": true,
+    "tfidf__stop_words": null,
+    "tfidf__ngram_range": [
+      1,
+      2
+    ],
+    "tfidf__min_df": 10,
+    "tfidf__max_features": 50000,
+    "tfidf__max_df": 1.0,
+    "classifier__class_weight": null,
+    "classifier__C": 1
+  },
+  "pipeline_path": "../models/improvement_no_stopwords/selected_pipeline.joblib"
+}

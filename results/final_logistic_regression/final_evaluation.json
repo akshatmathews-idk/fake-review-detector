@@ -1,0 +1,30 @@
+{
+  "model": "Logistic Regression (L2 / Ridge)",
+  "test_rows": 8082,
+  "correct": 7636,
+  "errors": 446,
+  "confusion_matrix_labels": [
+    "OR",
+    "CG"
+  ],
+  "confusion_matrix": [
+    [
+      3860,
+      183
+    ],
+    [
+      263,
+      3776
+    ]
+  ],
+  "metrics": {
+    "Accuracy": 0.9448156396931453,
+    "Precision (CG)": 0.9537762061126547,
+    "Recall (CG)": 0.9348848724931914,
+    "F1-score (CG)": 0.9442360590147537,
+    "Macro F1-score": 0.9448096778051971,
+    "Balanced Accuracy": 0.9448107271197097,
+    "ROC-AUC": 0.9870644103983197
+  },
+  "evaluation_note": "The test split was inspected during earlier development. These results are not independent external validation."
+}

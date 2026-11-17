@@ -1,299 +1,173 @@
 {
+  "model": {
+    "name": "Logistic Regression (L2 / Ridge)",
+    "type": "TF-IDF unigrams + bigrams + Logistic Regression",
+    "cv_macro_f1": 0.9397691912,
+    "cv_training_macro_f1": 0.9794058675,
+    "cv_generalization_gap": 0.03963667630000001,
+    "parameters": {
+      "tfidf__stop_words": null,
+      "tfidf__ngram_range": [
+        1,
+        2
+      ],
+      "tfidf__min_df": 10,
+      "tfidf__max_df": 1.0,
+      "tfidf__max_features": 100000,
+      "tfidf__sublinear_tf": true,
+      "classifier__penalty": "l2",
+      "classifier__C": 3.0,
+      "classifier__solver": "liblinear",
+      "classifier__class_weight": null
+    },
+    "selection_note": "Logistic Regression was selected as a slightly more conservative alternative to LinearSVC: its CV Macro F1 was 93.98% versus 94.38% for LinearSVC, while its CV training-validation gap was smaller (3.96 versus 5.27 percentage points)."
+  },
   "dataset": {
-    "source": "Kaggle · mexwell / Fake Reviews Dataset",
+    "source": "Fake Reviews Dataset — mexwell on Kaggle",
     "source_url": "https://www.kaggle.com/datasets/mexwell/fake-reviews-dataset",
     "original_rows": 40432,
-    "after_duplicate_text_removal": 40410,
-    "or": 20215,
-    "cg": 20195,
+    "cleaned_rows": 40410,
+    "duplicates_removed": 22,
+    "or_rows": 20215,
+    "cg_rows": 20195,
     "train_rows": 32328,
     "test_rows": 8082,
-    "categories": 10,
-    "rating_distribution": [
-      {
-        "rating": 1,
-        "count": 2155
-      },
-      {
-        "rating": 2,
-        "count": 1967
-      },
-      {
-        "rating": 3,
-        "count": 3785
-      },
-      {
-        "rating": 4,
-        "count": 7959
-      },
-      {
-        "rating": 5,
-        "count": 24544
-      }
-    ],
-    "median_words": {
-      "or": 42.0,
-      "cg": 35.0
-    }
-  },
-  "model_comparison_cv": [
-    {
-      "model": "Dummy Classifier",
-      "accuracy": 0.5002474625436784,
-      "accuracy_std": 5.78628133767162e-05,
-      "macro_f1": 0.3334432975530118,
-      "macro_f1_std": 2.570866433518508e-05,
-      "balanced_accuracy": 0.5,
-      "roc_auc": 0.5
-    },
-    {
-      "model": "Logistic Regression (Unigrams)",
-      "accuracy": 0.8993441331167922,
-      "accuracy_std": 0.003451680264221,
-      "macro_f1": 0.8993225675378611,
-      "macro_f1_std": 0.0034542481272162,
-      "balanced_accuracy": 0.8993370646140451,
-      "roc_auc": 0.9635585792704038
-    },
-    {
-      "model": "Logistic Regression (Unigrams + Bigrams)",
-      "accuracy": 0.9255753397688044,
-      "accuracy_std": 0.0024070825171697,
-      "macro_f1": 0.9255431881150354,
-      "macro_f1_std": 0.002411566471031,
-      "balanced_accuracy": 0.9255652019285812,
-      "roc_auc": 0.9784644575744148
-    },
-    {
-      "model": "Linear SVM (Unigrams + Bigrams)",
-      "accuracy": 0.9439494396174024,
-      "accuracy_std": 0.001281095052871,
-      "macro_f1": 0.9439455399630065,
-      "macro_f1_std": 0.0012809584528364,
-      "balanced_accuracy": 0.9439454495443572,
-      "roc_auc": 0.9866933306038912
-    }
-  ],
-  "feature_experiments": [
-    {
-      "configuration": "Baseline (min_df=2)",
-      "accuracy": 0.9439494396174024,
-      "accuracy_std": 0.001281095052871,
-      "macro_f1": 0.9439455399630065,
-      "balanced_accuracy": 0.9439454495443572,
-      "roc_auc": 0.9866933306038912
-    },
-    {
-      "configuration": "min_df=1",
-      "accuracy": 0.9421862181596448,
-      "accuracy_std": 0.0019140995407394,
-      "macro_f1": 0.942181351120444,
-      "balanced_accuracy": 0.942181806652484,
-      "roc_auc": 0.9854011046824714
-    },
-    {
-      "configuration": "min_df=3",
-      "accuracy": 0.9437329176663032,
-      "accuracy_std": 0.00100338218727,
-      "macro_f1": 0.9437298662695296,
-      "balanced_accuracy": 0.9437294298646356,
-      "roc_auc": 0.9867262829028204
-    },
-    {
-      "configuration": "min_df=5",
-      "accuracy": 0.9424337046252288,
-      "accuracy_std": 0.0013504534984212,
-      "macro_f1": 0.9424318303040206,
-      "balanced_accuracy": 0.942431197300818,
-      "roc_auc": 0.9865883713524668
-    },
-    {
-      "configuration": "Sublinear TF",
-      "accuracy": 0.9461146974034448,
-      "accuracy_std": 0.0017056067849661,
-      "macro_f1": 0.946110353085864,
-      "balanced_accuracy": 0.946110373059934,
-      "roc_auc": 0.9875284868784486
-    }
-  ],
-  "selected_feature_configuration_cv": {
-    "name": "LinearSVC + TF-IDF (unigrams + bigrams, min_df=2, max_df=0.95, sublinear_tf=True)",
-    "accuracy": 0.9461146974034448,
-    "accuracy_std": 0.0017056067849661,
-    "macro_f1": 0.946110353085864,
-    "balanced_accuracy": 0.946110373059934,
-    "roc_auc": 0.9875284868784486
+    "categories": 10
   },
   "held_out_test": {
-    "accuracy": 0.9500123731749567,
-    "macro_f1": 0.95,
-    "balanced_accuracy": 0.95,
-    "roc_auc": 0.9889,
-    "precision_cg": 0.9586,
-    "recall_cg": 0.9406,
-    "f1_cg": 0.9495,
-    "predictions": 8082,
-    "correct": 7678,
-    "errors": 404,
+    "metrics": {
+      "Accuracy": 0.9448156396931452,
+      "Precision (CG)": 0.9537762061126548,
+      "Recall (CG)": 0.9348848724931914,
+      "F1-score (CG)": 0.9442360590147536,
+      "Macro F1-score": 0.9448096778051972,
+      "Balanced Accuracy": 0.9448107271197096,
+      "ROC-AUC": 0.9870644103983196
+    },
+    "correct": 7636,
+    "errors": 446,
     "confusion_matrix": [
       [
-        3879,
-        164
+        3860,
+        183
       ],
       [
-        240,
-        3799
+        263,
+        3776
       ]
     ],
     "confusion_matrix_labels": [
       "OR",
       "CG"
-    ]
-  },
-  "oof_error_analysis": {
-    "predictions": 32328,
-    "errors": 1742,
-    "accuracy": 0.9461148230635981,
-    "error_rate": 0.05388517693640188,
-    "confusion_matrix": [
-      [
-        15435,
-        737
-      ],
-      [
-        1005,
-        15151
-      ]
     ],
-    "category_error_rates": [
-      {
-        "category": "Movies_and_TV_5",
-        "error_rate": 0.055230125523012555,
-        "total": 3585,
-        "errors": 198
-      },
-      {
-        "category": "Books_5",
-        "error_rate": 0.05333028152895399,
-        "total": 4369,
-        "errors": 233
-      },
-      {
-        "category": "Clothing_Shoes_and_Jewelry_5",
-        "error_rate": 0.044993498049414826,
-        "total": 3845,
-        "errors": 173
-      },
-      {
-        "category": "Kindle_Store_5",
-        "error_rate": 0.04209858261053522,
-        "total": 4727,
-        "errors": 199
-      },
-      {
-        "category": "Pet_Supplies_5",
-        "error_rate": 0.0414020230533992,
-        "total": 4251,
-        "errors": 176
-      },
-      {
-        "category": "Sports_and_Outdoors_5",
-        "error_rate": 0.041339081917321836,
-        "total": 3943,
-        "errors": 163
-      },
-      {
-        "category": "Toys_and_Games_5",
-        "error_rate": 0.040897097625329816,
-        "total": 3790,
-        "errors": 155
-      },
-      {
-        "category": "Tools_and_Home_Improvement_5",
-        "error_rate": 0.039668135856883585,
-        "total": 3857,
-        "errors": 153
-      },
-      {
-        "category": "Home_and_Kitchen_5",
-        "error_rate": 0.036991368680641186,
-        "total": 4055,
-        "errors": 150
-      },
-      {
-        "category": "Electronics_5",
-        "error_rate": 0.03560682046138415,
-        "total": 3988,
-        "errors": 142
-      }
-    ],
-    "rating_error_rates": [
-      {
-        "rating": 1,
-        "error_rate": 0.03341067285382831,
-        "total": 2155,
-        "errors": 72
-      },
-      {
-        "rating": 2,
-        "error_rate": 0.0340620233858668,
-        "total": 1967,
-        "errors": 67
-      },
-      {
-        "rating": 3,
-        "error_rate": 0.03593130779392338,
-        "total": 3785,
-        "errors": 136
-      },
-      {
-        "rating": 4,
-        "error_rate": 0.03920090463626084,
-        "total": 7959,
-        "errors": 312
-      },
-      {
-        "rating": 5,
-        "error_rate": 0.04705834419817471,
-        "total": 24544,
-        "errors": 1155
-      }
-    ]
+    "note": "The test split was inspected during earlier development. These results are not independent external validation."
   },
-  "evaluation_note": "The held-out test set was inspected once during development before feature experiments were completed. It is not described as a completely untouched test set.",
-  "cv_vs_test_comparison": [
+  "final_model_comparison": [
     {
-      "Metric": "Accuracy",
-      "Cross-Validation": 0.9461146974034448,
-      "Test": 0.9500123731749568,
-      "Difference": 0.0038976757715118
+      "name": "Logistic Regression (100k)",
+      "cv_macro_f1": 0.9397691911922031,
+      "cv_std": 0.0023168694876991,
+      "training_macro_f1": 0.9794058675433844,
+      "generalization_gap": 0.0396366763511814,
+      "test_macro_f1": 0.9448096778051972,
+      "test_accuracy": 0.9448156396931452,
+      "test_roc_auc": 0.9870644103983196,
+      "json_size_mb": 1.4380340576171875,
+      "gzip_size_mb": 0.4919052124023437,
+      "average_inference_ms": 0.0499671030011086
     },
     {
-      "Metric": "Macro F1",
-      "Cross-Validation": 0.946110353085864,
-      "Test": 0.9500074748526788,
-      "Difference": 0.0038971217668146
-    },
-    {
-      "Metric": "Balanced Accuracy",
-      "Cross-Validation": 0.946110373059934,
-      "Test": 0.9500077068272692,
-      "Difference": 0.0038973337673352
-    },
-    {
-      "Metric": "ROC-AUC",
-      "Cross-Validation": 0.9875284868784486,
-      "Test": 0.9889384217458802,
-      "Difference": 0.0014099348674315
+      "name": "LinearSVC (10k)",
+      "cv_macro_f1": 0.939216159819834,
+      "cv_std": 0.0008349142946396,
+      "training_macro_f1": 0.9897456939395132,
+      "generalization_gap": 0.0505295341196789,
+      "test_macro_f1": 0.9404846266396808,
+      "test_accuracy": 0.9404850284583024,
+      "test_roc_auc": 0.9865487847677576,
+      "json_size_mb": 0.5127668380737305,
+      "gzip_size_mb": 0.1838665008544922,
+      "average_inference_ms": 0.0470354860008228
     }
   ],
-  "figures": {
-    "model_comparison": "assets/figures/cv_score_comparison.png",
-    "feature_experiments": "assets/figures/feature_experiment_comparison.png",
-    "final_confusion_matrix": "assets/figures/final_confusion_matrix.png",
-    "final_roc_curve": "assets/figures/final_roc_curve.png",
-    "oof_confusion_matrix": "assets/figures/oof_confusion_matrix.png",
-    "category_error_rates": "assets/figures/category_error_rates.png",
-    "rating_error_rates": "assets/figures/rating_error_rates.png"
+  "tuned_model_comparison": [
+    {
+      "name": "LinearSVC",
+      "cv_macro_f1": 0.943793383,
+      "training_macro_f1": 0.9965200434,
+      "generalization_gap": 0.0527266604,
+      "cv_std": 0.0016120198
+    },
+    {
+      "name": "Logistic Regression L1/L2/Elastic Net",
+      "cv_macro_f1": 0.9397691912,
+      "training_macro_f1": 0.9794058675,
+      "generalization_gap": 0.0396366764,
+      "cv_std": 0.0023168695
+    },
+    {
+      "name": "Random Forest",
+      "cv_macro_f1": 0.9009804543,
+      "training_macro_f1": 0.9999845336,
+      "generalization_gap": 0.0990040793,
+      "cv_std": 0.0029907936
+    },
+    {
+      "name": "XGBoost",
+      "cv_macro_f1": 0.886250609,
+      "training_macro_f1": 0.9139654957,
+      "generalization_gap": 0.0277148867,
+      "cv_std": 0.0029768471
+    }
+  ],
+  "linearsvc_vocabulary_tradeoff": [
+    {
+      "feature_limit": 5000,
+      "actual_vocabulary_size": 5000,
+      "cv_macro_f1": 0.9340499108,
+      "training_macro_f1": 0.9773724067,
+      "generalization_gap": 0.0433224959,
+      "cv_std": 0.0021477705,
+      "json_size_mb": 0.2532548904
+    },
+    {
+      "feature_limit": 10000,
+      "actual_vocabulary_size": 10000,
+      "cv_macro_f1": 0.9391852302,
+      "training_macro_f1": 0.9897534267,
+      "generalization_gap": 0.0505681965,
+      "cv_std": 0.0009099252,
+      "json_size_mb": 0.513094902
+    },
+    {
+      "feature_limit": 25000,
+      "actual_vocabulary_size": 25000,
+      "cv_macro_f1": 0.943793383,
+      "training_macro_f1": 0.9965200434,
+      "generalization_gap": 0.0527266604,
+      "cv_std": 0.0018022929,
+      "json_size_mb": 1.3185434341
+    },
+    {
+      "feature_limit": 50000,
+      "actual_vocabulary_size": 27293,
+      "cv_macro_f1": 0.943793383,
+      "training_macro_f1": 0.9965200434,
+      "generalization_gap": 0.0527266604,
+      "cv_std": 0.0018022929,
+      "json_size_mb": 1.4437503815
+    }
+  ],
+  "browser_payload": {
+    "json_bytes": 1508250,
+    "json_mb": 1.4383792877197266,
+    "gzip_bytes_estimate": 514273,
+    "gzip_mb_estimate": 0.4904489517211914
+  },
+  "interpretation": {
+    "or_label": "Original Review (OR)",
+    "cg_label": "Computer-Generated (CG)",
+    "warning": "The classifier predicts labels in this dataset. It does not verify authorship, deception, fraud, or review truthfulness.",
+    "test_set_caveat": "The held-out test split was inspected during earlier development; it is not a pristine independent external validation."
   }
 }

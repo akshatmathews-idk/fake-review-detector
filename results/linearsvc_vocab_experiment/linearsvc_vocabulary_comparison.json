@@ -1,0 +1,94 @@
+[
+  {
+    "max_features_limit":5000,
+    "mean_train_macro_f1":0.9773724067,
+    "mean_cv_macro_f1":0.9340499108,
+    "generalization_gap":0.0433224959,
+    "std_cv_macro_f1":0.0021477705,
+    "mean_cv_accuracy":0.9340508948,
+    "mean_cv_balanced_accuracy":0.9340496723,
+    "cv_fold_scores":[
+      0.9370553289,
+      0.9351963664,
+      0.9325687165,
+      0.9337972928,
+      0.9316318492
+    ],
+    "cv_time_seconds":8.0095767975,
+    "actual_vocabulary_size":5000,
+    "browser_json_bytes":265557,
+    "browser_json_mb":0.2532548904,
+    "pipeline_joblib_mb":0.2183227539,
+    "browser_json_path":"\/home\/akshat\/Desktop\/main files (i think)\/ml course work\/ml project\/results\/linearsvc_vocab_experiment\/browser_payloads\/linearsvc_5000.json",
+    "pipeline_path":"\/home\/akshat\/Desktop\/main files (i think)\/ml course work\/ml project\/models\/linearsvc_vocab_experiment\/linearsvc_5000.joblib"
+  },
+  {
+    "max_features_limit":10000,
+    "mean_train_macro_f1":0.9897534267,
+    "mean_cv_macro_f1":0.9391852302,
+    "generalization_gap":0.0505681965,
+    "std_cv_macro_f1":0.0009099252,
+    "mean_cv_accuracy":0.9391858658,
+    "mean_cv_balanced_accuracy":0.9391846924,
+    "cv_fold_scores":[
+      0.9396844978,
+      0.9376721608,
+      0.939528632,
+      0.9399844158,
+      0.9390564447
+    ],
+    "cv_time_seconds":7.4219398499,
+    "actual_vocabulary_size":10000,
+    "browser_json_bytes":538019,
+    "browser_json_mb":0.513094902,
+    "pipeline_joblib_mb":0.4399719238,
+    "browser_json_path":"\/home\/akshat\/Desktop\/main files (i think)\/ml course work\/ml project\/results\/linearsvc_vocab_experiment\/browser_payloads\/linearsvc_10000.json",
+    "pipeline_path":"\/home\/akshat\/Desktop\/main files (i think)\/ml course work\/ml project\/models\/linearsvc_vocab_experiment\/linearsvc_10000.joblib"
+  },
+  {
+    "max_features_limit":25000,
+    "mean_train_macro_f1":0.9965200434,
+    "mean_cv_macro_f1":0.943793383,
+    "generalization_gap":0.0527266604,
+    "std_cv_macro_f1":0.0018022929,
+    "mean_cv_accuracy":0.9437947654,
+    "mean_cv_balanced_accuracy":0.9437925933,
+    "cv_fold_scores":[
+      0.9447875401,
+      0.9437021703,
+      0.9457149612,
+      0.9409122883,
+      0.9438499551
+    ],
+    "cv_time_seconds":7.56422925,
+    "actual_vocabulary_size":25000,
+    "browser_json_bytes":1382593,
+    "browser_json_mb":1.3185434341,
+    "pipeline_joblib_mb":1.1132202148,
+    "browser_json_path":"\/home\/akshat\/Desktop\/main files (i think)\/ml course work\/ml project\/results\/linearsvc_vocab_experiment\/browser_payloads\/linearsvc_25000.json",
+    "pipeline_path":"\/home\/akshat\/Desktop\/main files (i think)\/ml course work\/ml project\/models\/linearsvc_vocab_experiment\/linearsvc_25000.joblib"
+  },
+  {
+    "max_features_limit":50000,
+    "mean_train_macro_f1":0.9965200434,
+    "mean_cv_macro_f1":0.943793383,
+    "generalization_gap":0.0527266604,
+    "std_cv_macro_f1":0.0018022929,
+    "mean_cv_accuracy":0.9437947654,
+    "mean_cv_balanced_accuracy":0.9437925933,
+    "cv_fold_scores":[
+      0.9447875401,
+      0.9437021703,
+      0.9457149612,
+      0.9409122883,
+      0.9438499551
+    ],
+    "cv_time_seconds":7.5243010521,
+    "actual_vocabulary_size":27293,
+    "browser_json_bytes":1513882,
+    "browser_json_mb":1.4437503815,
+    "pipeline_joblib_mb":1.2173309326,
+    "browser_json_path":"\/home\/akshat\/Desktop\/main files (i think)\/ml course work\/ml project\/results\/linearsvc_vocab_experiment\/browser_payloads\/linearsvc_50000.json",
+    "pipeline_path":"\/home\/akshat\/Desktop\/main files (i think)\/ml course work\/ml project\/models\/linearsvc_vocab_experiment\/linearsvc_50000.joblib"
+  }
+]

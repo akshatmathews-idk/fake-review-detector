@@ -1,0 +1,95 @@
+[
+  {
+    "Model":"LinearSVC",
+    "Training Macro F1":0.9965200434,
+    "CV Macro F1":0.943793383,
+    "Generalization Gap":0.0527266604,
+    "CV Macro F1 Std":0.0016120198,
+    "Best Parameters":{
+      "tfidf__sublinear_tf":true,
+      "tfidf__stop_words":null,
+      "tfidf__ngram_range":[
+        1,
+        2
+      ],
+      "tfidf__min_df":10,
+      "tfidf__max_features":50000,
+      "tfidf__max_df":1.0,
+      "classifier__class_weight":null,
+      "classifier__C":1
+    }
+  },
+  {
+    "Model":"Logistic Regression L1\/L2\/Elastic Net",
+    "Training Macro F1":0.9794058675,
+    "CV Macro F1":0.9397691912,
+    "Generalization Gap":0.0396366764,
+    "CV Macro F1 Std":0.0023168695,
+    "Best Parameters":{
+      "tfidf__sublinear_tf":true,
+      "tfidf__stop_words":null,
+      "tfidf__ngram_range":[
+        1,
+        2
+      ],
+      "tfidf__min_df":10,
+      "tfidf__max_features":100000,
+      "tfidf__max_df":1.0,
+      "classifier__solver":"liblinear",
+      "classifier__penalty":"l2",
+      "classifier__class_weight":null,
+      "classifier__C":3
+    }
+  },
+  {
+    "Model":"Random Forest",
+    "Training Macro F1":0.9999845336,
+    "CV Macro F1":0.9009804543,
+    "Generalization Gap":0.0990040793,
+    "CV Macro F1 Std":0.0029907936,
+    "Best Parameters":{
+      "tfidf__sublinear_tf":true,
+      "tfidf__stop_words":null,
+      "tfidf__ngram_range":[
+        1,
+        2
+      ],
+      "tfidf__min_df":10,
+      "tfidf__max_features":60000,
+      "tfidf__max_df":0.95,
+      "classifier__n_estimators":200,
+      "classifier__min_samples_split":2,
+      "classifier__min_samples_leaf":1,
+      "classifier__max_features":0.01,
+      "classifier__max_depth":null,
+      "classifier__class_weight":null
+    }
+  },
+  {
+    "Model":"XGBoost",
+    "Training Macro F1":0.9139654957,
+    "CV Macro F1":0.886250609,
+    "Generalization Gap":0.0277148867,
+    "CV Macro F1 Std":0.0029768471,
+    "Best Parameters":{
+      "tfidf__sublinear_tf":true,
+      "tfidf__stop_words":null,
+      "tfidf__ngram_range":[
+        1,
+        2
+      ],
+      "tfidf__min_df":10,
+      "tfidf__max_features":20000,
+      "tfidf__max_df":1.0,
+      "classifier__subsample":0.7,
+      "classifier__reg_lambda":10,
+      "classifier__reg_alpha":0.1,
+      "classifier__n_estimators":200,
+      "classifier__min_child_weight":5,
+      "classifier__max_depth":6,
+      "classifier__learning_rate":0.1,
+      "classifier__gamma":0.5,
+      "classifier__colsample_bytree":0.9
+    }
+  }
+]
